@@ -23,8 +23,8 @@ os: linux
 #   "files" section altogether. A blank or incomplete "files" section
 #   may cause associated deployments to fail.
 files:
-  - source: /var/lib/jenkins/workspace/Hello_World_Pipeline_Java/target/my-app-1.0-SNAPSHOT.jar 
-    destination: /home/ec2-user
+  - source: /my-app-1.0-SNAPSHOT.jar 
+    destination: /home/ec2-user/
 #  - source:
 #    destination:
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
@@ -122,3 +122,15 @@ files:
 #    - location: 
 #      timeout:
 #      runas:
+hooks:
+  BeforeInstall:
+    - location: scripts/install_dependencies
+      timeout: 300
+      runas: root
+    - location: scripts/start_server
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: scripts/stop_server
+      timeout: 300
+      runas: root
